@@ -1,0 +1,29 @@
+#TASK 1.2
+def convert_binary_to_decimal(binary_list):
+    decimal_list = [int(binary, 2) for binary in binary_list]
+    return decimal_list
+
+def minimize_difference(decimal_list):
+    decimal_list.sort()
+    while len(decimal_list) > 2:
+        # Finding the two smallest elements
+
+        smallest1 = decimal_list.pop(0)
+        smallest2 = decimal_list.pop(0)
+
+        # Calculating the sum and add it back to the list
+        new_element = smallest1 + smallest2
+        decimal_list.append(new_element)
+
+    result_difference = abs(decimal_list[0] - decimal_list[1])
+    return decimal_list, result_difference
+
+# Input binary numbers as strings separated by spaces
+binary_input = input("Enter the list of binary numbers separated by spaces: ")
+binary_list = binary_input.split()
+
+decimal_list = convert_binary_to_decimal(binary_list)
+final_list, final_difference = minimize_difference(decimal_list)
+
+print("Final list:", final_list)
+print("Final difference:", final_difference)
