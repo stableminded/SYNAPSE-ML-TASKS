@@ -1,0 +1,25 @@
+#Task 1.1
+
+superheroes = ['IRON_MAN', 'BLACK_WIDOW', 'CAPTAIN_AMERICA', 'THOR', 'HULK', 'SCARLET_WITCH', 'SPIDER_MAN']
+# Creating empty lists which are required
+indices = []
+decoded_names = []
+
+# Filling indices and decoded_names using enumerate() and append()
+for index, name in enumerate(superheroes):
+    indices.append(index)
+    decoded_names.append(name.lower().replace('_', ' '))
+
+# Creating a lambda function (Temporary) to return the length of strings passed in it
+get_length = lambda seq: len(seq)
+
+# Using map() to apply the lambda function to decoded_names and create name_lengths list
+name_lengths = list(map(get_length, decoded_names))
+
+# Sort the indices list based on the name_lengths list
+indices.sort(key=lambda i:name_lengths[i])
+
+# Displaying the list with names in "Title" case
+print("Phase 5 kickoff list:")
+for count, index in enumerate(indices, start=1):
+    print(f"{count}. {decoded_names[index].title()}")
