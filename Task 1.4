@@ -1,0 +1,71 @@
+#Task 1.4
+import random
+
+class ChessPlayer:
+    def __init__(self, name, age, ELO, tenacity, isBoring):
+        self.name = name
+        self.age = age
+        self.ELO = ELO
+        self.tenacity = tenacity
+        self.isBoring = isBoring
+        self.tournament_score = 0
+    
+    def simulate_match(self, opponent):
+        elo_diff = abs(self.ELO - opponent.ELO)
+        
+        if elo_diff > 100:
+            if self.ELO > opponent.ELO:
+                self.tournament_score += 1
+            else:
+                opponent.tournament_score += 1
+
+        elif self.isBoring or opponent.isBoring:
+            if elo_diff <= 100:
+                self.tournament_score += 0.5
+                opponent.tournament_score += 0.5
+
+        elif 100 >= elo_diff >= 50:
+            random_factor = random.randint(1, 10)
+            lower_elo_product = random_factor * (opponent.tenacity if opponent.ELO < self.ELO else self.tenacity)
+
+            if lower_elo_product > (self.ELO if self.ELO > opponent.ELO else opponent.ELO):
+                (self.tournament_score+1) if opponent.ELO < self.ELO else (opponent.tournament_score+1)
+           
+        else:
+            if self.tenacity > opponent.tenacity:
+                self.tournament_score += 1
+            else:
+                opponent.tournament_score += 1
+        
+
+def simulate_tournament(players):
+    num_players = len(players)
+    for i in range(num_players):
+        for j in range(i + 1, num_players):
+            player1 = players[i]
+            player2 = players[j]
+            player1.simulate_match(player2)
+            player2.simulate_match(player1)
+
+def print_tournament_results(players):
+    print("Tournament Results:")
+    print("{:<25} {:<10}".format("Player", "Score"))
+    print("-" * 35)
+    for player in players:
+        print("{:<25} {:<10}".format(player.name, player.tournament_score))
+
+# Create ChessPlayer instances
+players = [
+    ChessPlayer("Courage the Cowardly Dog", 25, 1000.39, 1000, False),
+    ChessPlayer("Princess Peach", 23, 945.65, 50, True),
+    ChessPlayer("Walter White", 50, 1650.73, 750, False),
+    ChessPlayer("Rory Gilmore", 16, 1700.87, 500, False),
+    ChessPlayer("Anthony Fantano", 37, 1400.45, 400, True),
+    ChessPlayer("Beth Harmon", 20, 2500.34, 150, False)
+]
+
+# Simulate the tournament
+simulate_tournament(players)
+
+# Print tournament results
+print_tournament_results(players)
