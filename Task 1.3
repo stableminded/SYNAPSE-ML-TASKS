@@ -1,0 +1,39 @@
+#Task 1.3
+def explode_chains_list(list_of_encoded_lists):
+    def explode_chains(encoded_list):
+        while True:
+            found_chain = False
+            new_list = []
+            i = 0
+
+            while i < len(encoded_list):
+                if i + 2 < len(encoded_list) and encoded_list[i] + 1 == encoded_list[i + 1] and encoded_list[i] + 2 == encoded_list[i + 2]:
+                    found_chain = True
+                    i += 3  # Skip the three numbers in the sequence
+                else:
+                    new_list.append(encoded_list[i])
+                    i += 1
+
+            if not found_chain:
+                break
+
+            encoded_list = new_list
+
+        return encoded_list
+
+    result_list = []
+    for encoded_list in list_of_encoded_lists:
+        result_list.append(explode_chains(encoded_list))
+
+    return result_list
+
+# User input for the list of encoded lists
+num_of_lists = int(input("Enter the number of encoded lists: "))
+list_of_encoded_lists = []
+
+for _ in range(num_of_lists):
+    encoded_list = [int(x) for x in input("Enter the encoded list separated by spaces: ").split()]
+    list_of_encoded_lists.append(encoded_list)
+
+result = explode_chains_list(list_of_encoded_lists)
+print("Result:", result)
